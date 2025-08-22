@@ -4,12 +4,13 @@ import pandas as pd
 import numpy as np
 import os
 
-app = Flask(__name__)
+# --- MODIFICATION: Tell Flask to use the current folder for everything ---
+app = Flask(__name__, template_folder='.', static_folder='.')
 
-# --- File Paths ---
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(BASE_DIR, 'models', 'disease_predictor.pkl')
-DATA_DIR = os.path.join(BASE_DIR, 'data')
+# --- MODIFICATION: Simplified file paths for a single-folder structure ---
+MODEL_PATH = 'disease_predictor.pkl'
+MEDICATIONS_PATH = 'medications.csv'
+TRAINING_DATA_PATH = 'Training.csv'
 
 # --- Load Model and Data ---
 print("--- Initializing Application ---")
@@ -21,16 +22,15 @@ except Exception as e:
     model = None
 
 try:
-    medications_df = pd.read_csv(os.path.join(DATA_DIR, 'medications.csv'))
+    medications_df = pd.read_csv(MEDICATIONS_PATH)
     print("✅ Medications data loaded successfully!")
 except Exception as e:
     print(f"❌ ERROR loading medications.csv: {e}")
     medications_df = None
 
 try:
-    train_df = pd.read_csv(os.path.join(DATA_DIR, 'Training.csv'))
+    train_df = pd.read_csv(TRAINING_DATA_PATH)
     
-    # --- THE SAME CORRECT FIX IS HERE ---
     if 'Unnamed: 133' in train_df.columns:
         train_df = train_df.drop('Unnamed: 133', axis=1)
         
