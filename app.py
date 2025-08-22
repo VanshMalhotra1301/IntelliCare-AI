@@ -4,10 +4,10 @@ import pandas as pd
 import numpy as np
 import os
 
-# --- MODIFICATION: Tell Flask to use the current folder for everything ---
+# --- THIS IS CORRECT: It tells Flask to use the current folder for everything ---
 app = Flask(__name__, template_folder='.', static_folder='.')
 
-# --- MODIFICATION: Simplified file paths for a single-folder structure ---
+# --- THIS IS CORRECT: Simplified paths for your single-folder structure ---
 MODEL_PATH = 'disease_predictor.pkl'
 MEDICATIONS_PATH = 'medications.csv'
 TRAINING_DATA_PATH = 'Training.csv'
@@ -15,6 +15,7 @@ TRAINING_DATA_PATH = 'Training.csv'
 # --- Load Model and Data ---
 print("--- Initializing Application ---")
 try:
+    # This will now look for 'disease_predictor.pkl' in the main folder
     model = pickle.load(open(MODEL_PATH, 'rb'))
     print("✅ Model loaded successfully!")
 except Exception as e:
